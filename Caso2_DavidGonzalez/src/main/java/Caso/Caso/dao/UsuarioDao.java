@@ -1,13 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
-package Caso.Caso.dao;
 
-/**
- *
- * @author David
- */
-public interface UsuarioDao {
-    
+package Caso.Caso.dao;
+import Caso.Caso.domain.Usuario;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface UsuarioDao extends JpaRepository<Usuario, Integer> {
+    Optional<Usuario> findByCorreo(String correo);
+    boolean existsByCorreo(String correo);
 }
+
+

@@ -1,13 +1,21 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package Caso.Caso.service;
 
-/**
- *
- * @author David
- */
+import Caso.Caso.domain.Pelicula;
+import java.util.List;
+import java.util.Optional;
+
 public interface PeliculaService {
-    
+
+    Pelicula guardarPelicula(Pelicula pelicula);
+
+    List<Pelicula> listarTodas();
+
+    List<Pelicula> buscarPorTitulo(String titulo);
+
+    List<Pelicula> buscarPorTipo(String tipo);
+
+    Optional<Pelicula> buscarPorId(Integer id);
+
+    void eliminarPelicula(Integer id);
+
 }

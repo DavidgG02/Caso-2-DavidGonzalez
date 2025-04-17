@@ -1,13 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package Caso.Caso.dao;
 
-/**
- *
- * @author David
- */
-public interface ReservaDao {
-    
+import Caso.Caso.domain.Funcion;
+import Caso.Caso.domain.Reserva;
+import Caso.Caso.domain.Usuario;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface ReservaDao extends JpaRepository<Reserva, Integer> {
+    List<Reserva> findByUsuario(Usuario usuario);
+    List<Reserva> findByFuncion(Funcion funcion);
 }
