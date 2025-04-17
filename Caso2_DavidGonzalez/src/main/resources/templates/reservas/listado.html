@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{layout/plantilla :: head}">
+        <title>Mis Reservas - CineTeatro</title>
+    </head>
+    <body>
+        <header th:replace="~{layout/plantilla :: header}"/>
+        
+        <main th:replace="~{layout/plantilla :: content}">
+            <section th:replace="~{reservas/fragmentos :: botonesAgregar}"/>
+            <section th:replace="~{reservas/fragmentos :: listadoReservas(reservas=${reservas})}"/>
+        </main>
+        
+        <footer th:replace="~{layout/plantilla :: footer}"/>
+    </body>
+</html>

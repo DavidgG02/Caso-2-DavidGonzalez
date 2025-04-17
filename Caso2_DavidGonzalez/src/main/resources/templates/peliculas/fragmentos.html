@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <div th:fragment="botonesAgregar">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 th:text="${titulo} ?: 'Películas'"></h1>
+            <a th:href="@{/peliculas/nueva}" class="btn btn-primary">
+                <i class="bi bi-plus"></i> Nueva Película
+            </a>
+        </div>
+    </div>
+
+    <div th:fragment="agregarProducto">
+        <!-- Modal para agregar/editar película -->
+        <div class="modal fade" id="peliculaModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form th:action="@{/peliculas/guardar}" method="post" enctype="multipart/form-data">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Agregar/Editar Película</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="peliculaId" name="id">
+                            <div class="mb-3">
+                                <label for="titulo" class="form-label">Título</label>
+                                <input type="text" class="form-control" id="titulo" name="titulo" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="genero" class="form-label">Género</label>
+                                <select class="form-select" id="genero" name="genero" required>
+                                    <option value="Acción">Acción</option>
+                                    <option value="Aventura">Aventura</option>
+                                    <option value="Comedia">Comedia</option>
+                                    <option value="Drama">Drama</option>
+                                    <option value="Terror">Terror</option>
+                                    <option value="Ciencia Ficción">Ciencia Ficción</option>
+                                </select>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="duracion" class="form-label">Duración (min)</label>
+                                    <input type="number" class="form-control" id="duracion" name="duracion" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="clasificacion" class="form-label">Clasificación</label>
+                                    <select class="form-select" id="clasificacion" name="clasificacion" required>
+                                        <option value="A">A (Todo público)</option>
+                                        <option value="B">B (12+)</option>
+                                        <option value="B15">B15 (15+)</option>
+                                        <option value="C">C (18+)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="descripcion" class="form-label">Descripción</label>
+                                <textarea class="form-control" id="descripcion" name="descripcion" rows="3" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="imagen" class="form-label">Poster</label>
+                                <input type="file" class="form-control" id="imagen" name="imagenFile" accept="image/*">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:fragment="listadoProductos(peliculas)">
+        <div class="row">
+            <div th:each="pelicula : ${peliculas}" class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img th:src="@{'/images/' + ${pelicula.imagen}}" class="card-img-top" alt="Poster película">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${pelicula.titulo}"></h5>
+                        <p class="card-text" th:text="${pelicula.descripcion}"></p>
+                        <p class="text-muted">
+                            <span th:text="${pelicula.duracion} + ' min'"></span> | 
+                            <span th:text="${pelicula.genero}"></span>
+                        </p>
+                    </div>
+                    <div class="card-footer bg-white">
+                        <a th:href="@{'/peliculas/' + ${pelicula.id}}" class="btn btn-primary">Ver detalles</a>
+                        <a th:href="@{'/peliculas/editar/' + ${pelicula.id}}" class="btn btn-secondary">Editar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <div th:fragment="botonesAgregar">
+        <h1 class="mb-4">Mis Reservas</h1>
+    </div>
+
+    <div th:fragment="listadoReservas(reservas)">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Película</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Sala</th>
+                        <th>Asientos</th>
+                        <th>Total</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="reserva : ${reservas}">
+                        <td th:text="${reserva.funcion.pelicula.titulo}"></td>
+                        <td th:text="${#temporals.format(reserva.funcion.fecha, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${#temporals.format(reserva.funcion.hora, 'HH:mm')}"></td>
+                        <td th:text="${reserva.funcion.sala}"></td>
+                        <td th:text="${reserva.asientos}"></td>
+                        <td th:text="'$' + ${#numbers.formatDecimal(reserva.total, 1, 2)}"></td>
+                        <td>
+                            <a th:href="@{'/reservas/cancelar/' + ${reserva.id}}" class="btn btn-sm btn-danger">
+                                <i class="bi bi-trash"></i> Cancelar
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div th:fragment="formularioReserva(funcion)">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${funcion.pelicula.titulo}"></h5>
+                        <p class="card-text">
+                            <strong>Fecha:</strong> 
+                            <span th:text="${#temporals.format(funcion.fecha, 'dd/MM/yyyy')}"></span> |
+                            <strong>Hora:</strong> 
+                            <span th:text="${#temporals.format(funcion.hora, 'HH:mm')}"></span> |
+                            <strong>Sala:</strong> 
+                            <span th:text="${funcion.sala}"></span>
+                        </p>
+                        <p class="card-text">
+                            <strong>Precio por asiento:</strong> 
+                            <span th:text="'$' + ${#numbers.formatDecimal(funcion.precio, 1, 2)}"></span>
+                        </p>
+                    </div>
+                </div>
+                
+                <form th:action="@{/reservas/nueva}" method="post">
+                    <input type="hidden" name="funcionId" th:value="${funcion.id}">
+                    
+                    <div class="mb-3">
+                        <label for="asientos" class="form-label">Número de asientos</label>
+                        <input type="number" class="form-control" id="asientos" name="asientos" min="1" max="10" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre para la reserva</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a th:href="@{'/peliculas/' + ${funcion.pelicula.id}}" class="btn btn-secondary me-md-2">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">Confirmar Reserva</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</html>

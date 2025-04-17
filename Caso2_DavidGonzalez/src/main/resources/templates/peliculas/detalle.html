@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${pelicula.titulo} + ' - CineTeatro'"></title>
+    <th:block th:replace="~{layout/plantilla :: head}"></th:block>
+</head>
+<body>
+    <th:block th:replace="~{layout/plantilla :: nav}"></th:block>
+
+    <main th:replace="~{layout/plantilla :: content}">
+        <div class="row">
+            <div class="col-md-4">
+                <img th:src="@{'/images/' + ${pelicula.imagen}}" class="img-fluid rounded" alt="Poster película">
+            </div>
+            <div class="col-md-8">
+                <h1 th:text="${pelicula.titulo}"></h1>
+                <p class="lead" th:text="${pelicula.descripcion}"></p>
+                
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <strong>Género:</strong>
+                        <span th:text="${pelicula.genero}"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Duración:</strong>
+                        <span th:text="${pelicula.duracion} + ' min'"></span>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Clasificación:</strong>
+                        <span th:text="${pelicula.clasificacion}"></span>
+                    </div>
+                </div>
+                
+                <h3>Funciones disponibles</h3>
+                <div class="list-group">
+                    <a th:each="funcion : ${pelicula.funciones}" 
+                       th:href="@{'/reservas/nueva?funcionId=' + ${funcion.id}}"
+                       class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1" th:text="${#temporals.format(funcion.fecha, 'dd/MM/yyyy')} + ' - ' + ${#temporals.format(funcion.hora, 'HH:mm')}"></h5>
+                            <small th:text="'Sala ' + ${funcion.sala}"></small>
+                        </div>
+                        <p class="mb-1" th:text="'$' + ${#numbers.formatDecimal(funcion.precio, 1, 2)}"></p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <th:block th:replace="~{layout/plantilla :: footer}"></th:block>
+</body>
+</html>
